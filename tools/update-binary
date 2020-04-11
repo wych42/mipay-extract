@@ -85,9 +85,9 @@ print "by @linusyang"
 print "version: $ver"
 
 print "Mounting filesystems..."
-mount /system
-if mount | grep ro | grep -q /system; then
-    mount -o remount,rw /system || print "Failed to mount read-write!"
+mount /system_root
+if mount | grep ro | grep -q /system_root; then
+    mount -o remount,rw /system_root || print "Failed to mount read-write!"
     print 'Remount as read-write...'
 fi
 
@@ -96,9 +96,9 @@ fi
 }
 cd "$tmp"
 
-if [ -d "/system/system/app" ]; then
+if [ -d "/system_root/system/app" ]; then
     print 'New image structure detected.'
-    imgroot=/system
+    imgroot=/system_root
 fi
 
 app_list=""
@@ -124,6 +124,6 @@ done
 print "Fixing build.prop for MiPay..."
 setprop "ro.se.type" "eSE,HCE,UICC" || abort "Failed to patch build.prop"
 
-umount /system
+umount /system_root
 cleanup
 print "Finished!"
